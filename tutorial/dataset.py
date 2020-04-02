@@ -78,7 +78,7 @@ def split_train_test(data, test_ratio):
 # representation of the population distrubution
 def stratified_split(data, test_ratio):
     # Add a column for the income category
-    housing["income_cat"] = pandas.cut(housing["median_income"],
+    data["income_cat"] = pandas.cut(data["median_income"],
                                        bins=[0., 1.5, 3.0, 4.5, 6., numpy.inf],
                                        labels=[1, 2, 3, 4, 5])
     #housing["income_cat"].hist()
