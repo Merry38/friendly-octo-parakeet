@@ -127,9 +127,9 @@ def test_tree(train_data, test_data, pipeline):
     # Clearly overfitting here
     print("Decision Tree RMSE:", rmse)
 
-    # We can try to use the cross-validation: derive n different subsets of the training sets for training leaving the
-    # rest, each time, for validation. This will obviously take a longer time than the single training process.
-    # Anyway, we can confirm that the overfitting is very bad and results in worst performances than the linear
+    # We can try to use the cross-validation: derive n different subsets of the training sets for training, train on n-1
+    # and test on the remaining 1. Rinse and repeat This will obviously take a longer time than the single training
+    # process. Anyway, we can confirm that the overfitting is very bad and results in worst performances than the linear
     # regression
     scores = cross_val_score(decision_tree, prepared_data, label_data, scoring="neg_mean_squared_error", cv=10)
     tree_rmse_scores = numpy.sqrt(-scores)
@@ -155,8 +155,8 @@ def test_forest(train_data, test_data, pipeline):
         mse = mean_squared_error(label_data, training_predictions)
         rmse = numpy.sqrt(mse)
 
-        # Quite good, however, comparing this with the cross validation scores gives the impression that the model is still
-        # overfitting, even if at a lower rate than the single decision tree
+        # Quite good, however, comparing this with the cross validation scores gives the impression that the model is
+        # still overfitting, even if at a lower rate than the single decision tree
         # Possible solutions are simplification of the model, constraining of the model, gathering more training data
         print("Random Forest RMSE:", rmse)
 
@@ -164,7 +164,7 @@ def test_forest(train_data, test_data, pipeline):
         tree_rmse_scores = numpy.sqrt(-scores)
         display_scores(tree_rmse_scores)
 
-        # We could go on evaluating different models. Instead, we try to improve this one by fine-tuning hyperparameters.
+        # We could go on evaluating different models. Instead, we try to improve this one by fine-tuning hyperparameters
         # GridSearchCV performs the training by trying out different hyperparameters combinations and evaluating each
         # resulting model. The process obviously takes a long time to complete, as it also uses cross validation
         # If many combinations are to be evaluated, a RandomizedSearchCV is probably best, as it doesn't analyze every
